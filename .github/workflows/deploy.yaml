@@ -1,0 +1,17 @@
+name: deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Login to Docker Registry
+        run: echo ${{ secrets.CR_PAT }} | docker login ghcr.io -u ${{ secrets.USERNAME }} --password-stdin
+      - name: Build Docker image
+        run: docker build -t ghcr.io/iakovalenko-highload-architect/service-post-notification:latest --target service-post-notification .
+      - name: Push Docker image
+        run: docker push ghcr.io/iakovalenko-highload-architect/service-post-notification:latest

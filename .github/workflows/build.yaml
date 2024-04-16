@@ -1,0 +1,12 @@
+name: build
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build Docker image
+        run: docker build -t service-post-notification:test-build --target service-post-notification .
